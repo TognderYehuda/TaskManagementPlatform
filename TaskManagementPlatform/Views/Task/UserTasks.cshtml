@@ -1,0 +1,111 @@
+﻿@model TaskManagementPlatform.ViewModel.UserTasksViewModel
+
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<h1>Tasks for @Model.UserName</h1>
+
+<div class="mb-3">
+    <label for="userSelect" class="form-label">Switch User:</label>
+    <select class="form-select" id="userSelect" onchange="switchUser()">
+        @foreach (var user in Model.AvailableUsers)
+        {
+            if (user.Id == Model.UserId)
+            {
+                <option value="@user.Id" selected>@user.Name</option>
+            }
+            else
+            {
+                <option value="@user.Id">@user.Name</option>
+            }
+        }
+    </select>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Task</a>
+</div>
+
+@if (Model.Tasks.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Closed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    <tr class="@(task.IsClosed ? "table-secondary" : "")">
+                        <td>@task.Title</td>
+                        <td>@task.TaskType</td>
+                        <td>
+                            <span class="badge @(task.IsClosed ? "bg-secondary" : "bg-primary")">
+                                @GetStatusDescription(task.TaskType, task.CurrentStatus)
+                            </span>
+                        </td>
+                        <td>@task.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@(task.ClosedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@task.Id" class="btn btn-sm btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        <h4>No tasks assigned</h4>
+        <p>You don't have any tasks assigned to you yet.</p>
+        <a asp-action="Create" class="btn btn-primary">Create a new task</a>
+    </div>
+}
+
+@functions {
+    private string GetStatusDescription(string taskType, int status)
+    {
+        if (taskType == "Procurement")
+        {
+            return status switch
+            {
+                1 => "Created",
+                2 => "Supplier offers received",
+                3 => "Purchase completed",
+                _ => "Unknown"
+            };
+        }
+        else if (taskType == "Development")
+        {
+            return status switch
+            {
+                1 => "Created",
+                2 => "Specification completed",
+                3 => "Development completed",
+                4 => "Distribution completed",
+                _ => "Unknown"
+            };
+        }
+        else
+        {
+            return "Unknown";
+        }
+    }
+}
+
+<script>
+    function switchUser() {
+        const userId = document.getElementById('userSelect').value;
+        window.location.href = '@Url.Action("UserTasks", "Task")?userId=' + userId;
+    }
+</script>
