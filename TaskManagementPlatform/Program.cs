@@ -12,6 +12,17 @@ namespace TaskManagementPlatform
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddDbContext<TaskManagementDbContext>(options =>
                                                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<ITaskService, TaskService>();
@@ -30,11 +41,23 @@ namespace TaskManagementPlatform
 
             app.UseRouting();
 
+            app.UseCors("AllowReactApp");
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+                name: "api",
+                pattern: "api/{controller}/{action=Index}/{id?}");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<TaskManagementDbContext>();
+                context.Database.EnsureCreated();
+            }
 
             app.Run();
         }
