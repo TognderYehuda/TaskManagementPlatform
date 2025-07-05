@@ -1,74 +1,109 @@
-<<<<<<< HEAD
-# Getting Started with Create React App
+# Task Management Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive task management system built with ASP.NET Core MVC backend and React frontend, designed to handle multiple task types with extensible architecture.
 
-## Available Scripts
+## 🌟 Features
 
-In the project directory, you can run:
+- **Extensible Task System**: Support for multiple task types (Procurement, Development) with custom fields
+- **Sequential Workflow**: Enforced sequential status progression with backward moves allowed
+- **Type-Specific Validation**: Custom validation rules for each task type
+- **Dual Frontend**: Both MVC (server-side) and React (client-side) implementations
+- **User Management**: Task assignment and user switching
+- **Status History**: Complete audit trail of task changes
+- **Real-time Updates**: Dynamic form fields based on task type and status
 
-### `npm start`
+## 🏗️ Architecture
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The system follows clean architecture principles with clear separation of concerns:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+TaskManagementPlatform/
+├── 📁 TaskManagementPlatform/          # ASP.NET Core MVC Backend
+│   ├── Controllers/                    # MVC and API Controllers
+│   ├── Models/                        # Data Models
+│   ├── Services/                      # Business Logic
+│   ├── Data/                          # Entity Framework DbContext
+│   ├── Views/                         # Razor Views (MVC UI)
+│   └── ViewModels/                    # View Models
+├── 📁 react-task-management/          # React Frontend
+│   ├── src/components/                # React Components
+│   ├── src/services/                  # API Services
+│   └── public/                        # Static Assets
+└── 📄 README.md                       # This file
+```
 
-### `npm test`
+## 🔧 Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend (.NET 8)
+- **ASP.NET Core MVC** - Web framework
+- **Entity Framework Core** - ORM for database operations
+- **SQL Server** - Database
+- **RESTful APIs** - For React frontend communication
 
-### `npm run build`
+### Frontend (React 18)
+- **React** - UI library
+- **React Router** - Client-side routing
+- **Axios** - HTTP client
+- **Bootstrap 5** - CSS framework
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📋 Task Types & Workflows
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Procurement Tasks
+1. **Created** → 2. **Supplier offers received** → 3. **Purchase completed** → **Closed**
+   - Status 2 requires: 2 price quotes
+   - Status 3 requires: Receipt
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Development Tasks  
+1. **Created** → 2. **Specification completed** → 3. **Development completed** → 4. **Distribution completed** → **Closed**
+   - Status 2 requires: Specification text
+   - Status 3 requires: Branch name
+   - Status 4 requires: Version number
 
-### `npm run eject`
+## 🚀 Quick Start
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Prerequisites
+- .NET 8.0 SDK
+- Node.js (v16+)
+- SQL Server (LocalDB for development)
+- Git
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend Setup (ASP.NET Core MVC)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/TognderYehuda/TaskManagementPlatform.git
+   cd TaskManagementPlatform
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Setup the MVC Backend**
+   ```bash
+   cd TaskManagementPlatform
+   dotnet restore
+   dotnet run
+   ```
+   
+3. **Access the application**
+   - MVC UI: `https://localhost:5001`
+   - API: `https://localhost:5001/api`
 
-## Learn More
+### Frontend Setup (React)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Setup the React Frontend**
+   ```bash
+   cd react-task-management
+   npm install
+   npm start
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. **Access the React app**
+   - React UI: `http://localhost:3000`
 
-### Code Splitting
+### Database
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The application uses **Entity Framework Code First** with automatic database creation. The database will be created automatically on first run with seed data (4 demo users).
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# TaskManagementPlatform
->>>>>>> 9a1f654c7765221ffcb6e0ce40e4dda90c6b19fc
+**Connection String** (in `appsettings.json`):
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=TaskManagementDb;Trusted_Conne
